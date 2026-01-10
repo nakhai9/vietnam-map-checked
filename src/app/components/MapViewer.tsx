@@ -1,17 +1,18 @@
 "use client";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import VietnamMap from "./VietnamMap";
-
+import { LocationInfo } from "../model";
 
 type MapViewerProps = {
-    locationId?: number;
+  locationIds?: string[];
+  onChoose?: (location: LocationInfo) => void;
 };
 
-export default function MapViewer({
-    locationId
-}: MapViewerProps) {
-  const handleChooseProvince = (provinceCode: number) => {
-
+export default function MapViewer({ locationIds = [], onChoose }: MapViewerProps) {
+  const handleChooseProvince = (location: LocationInfo) => {
+    if (onChoose) {
+      onChoose(location);
+    }
   };
   return (
     <div className="relative bg-[#f4f4fd] shadow-xl rounded-lg w-full h-auto overflow-hidden map-viewer">
@@ -25,8 +26,8 @@ export default function MapViewer({
           <TransformComponent wrapperStyle={{ width: "100%", height: "100%" }}>
             <VietnamMap
               zoomToElement={zoomToElement}
-              locationId={locationId}
-              onClick={(id) => handleChooseProvince(id)}
+              locationIds={locationIds}
+              onClick={(location) => handleChooseProvince(location)}
             />
           </TransformComponent>
         )}

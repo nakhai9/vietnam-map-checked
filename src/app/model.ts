@@ -1,4 +1,4 @@
-export type VisitedLocation = {
-  id: string;
-  title: string;
+export type LocationInfo = {
+  id: string | number;
+  name: string;
 }

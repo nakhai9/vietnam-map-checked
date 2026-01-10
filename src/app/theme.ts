@@ -31,7 +31,7 @@ const THEMES = {
     dark: {}
 }
 
-export function getTheme(themeOf: string, mode?: 'light' | 'dark' ) {
-    if (!mode) return THEMES['light'][themeOf].color;
-    return THEMES[mode][themeOf].color;
-}
+// export function getTheme(themeOf: string, mode?: 'light' | 'dark' ) {
+//     if (!mode) return THEMES['light'][themeOf].color;
+//     return THEMES[mode][themeOf].color;
+// }
