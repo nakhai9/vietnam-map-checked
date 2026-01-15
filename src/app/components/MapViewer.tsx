@@ -2,20 +2,35 @@
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import VietnamMap from "./VietnamMap";
 import { LocationInfo } from "../model";
+import { ArrowRightLeft } from "lucide-react";
+import { CircularProgress } from "@mui/material";
 
 type MapViewerProps = {
   locationIds?: string[];
+  loading?: boolean;
   onChoose?: (location: LocationInfo) => void;
 };
 
-export default function MapViewer({ locationIds = [], onChoose }: MapViewerProps) {
+export default function MapViewer({ locationIds = [], loading = false, onChoose }: MapViewerProps) {
   const handleChooseProvince = (location: LocationInfo) => {
     if (onChoose) {
       onChoose(location);
     }
   };
   return (
-    <div className="relative bg-[#f4f4fd] shadow-xl rounded-lg w-full h-auto overflow-hidden map-viewer">
+    <div className="relative flex items-center bg-[#f4f4fd] shadow-xl rounded-lg w-full h-auto overflow-hidden map-viewer">
+      {/* { loading &&
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 100,
+            color: "#FE9A00",
+          }}
+        />
+      } */}
       <TransformWrapper
         minScale={1}
         maxScale={6}

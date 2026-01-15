@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { NEW_VIETNAM_MAP } from "../data/new-vietnam-map";
 import { LocationInfo } from "../model";
+import { OLD_VIETNAM_MAP } from "../data/old-vietnam-map";
+import { useVietnamMapStore } from "../store/vietnam-map-store";
+import { CircularProgress } from "@mui/material";
 
 type VietnamMapProps = {
   locationId?: number | null;
@@ -39,7 +42,8 @@ export default function VietnamMap({
 }: VietnamMapProps) {
 
   const svgRef = useRef<SVGSVGElement | null>(null);
-
+  const  currentMap  = useVietnamMapStore(state => state.currentMap);
+  const exportSvgToPng = useVietnamMapStore(state => state.exportSvgToPng);
   const handleClick = (location: LocationInfo) => {
     if (onClick) {
       onClick(location);
@@ -57,64 +61,25 @@ export default function VietnamMap({
 
   // }, [locationIds, zoomToElement]);
 
-  const exportSvgToPng = () => {
-    if (!svgRef.current) return;
-
-    const svg = svgRef.current;
-
-    // Serialize SVG
-    const serializer = new XMLSerializer();
-    const svgStr = serializer.serializeToString(svg);
-
-    // Tạo canvas
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    // Set kích thước ảnh export (tuỳ chỉnh)
-    const width = 1600;
-    const height = 1600;
-    canvas.width = width;
-    canvas.height = height;
-
-    // SVG → Image
-    const img = new Image();
-    const svgBlob = new Blob([svgStr], {
-      type: "image/svg+xml;charset=utf-8",
-    });
-    const url = URL.createObjectURL(svgBlob);
-
-    img.onload = () => {
-      ctx.clearRect(0, 0, width, height);
-      ctx.drawImage(img, 0, 0, width, height);
-      URL.revokeObjectURL(url);
-
-      // Canvas → PNG
-      const pngUrl = canvas.toDataURL("image/jpg");
-
-      const a = document.createElement("a");
-      a.href = pngUrl;
-      a.download = "vietnam-map.jpg";
-      a.click();
-    };
-
-    img.src = url;
-  };
+  useEffect(() => {
+    
+  }, [])
 
   return (
     <>
-      {/* <button onClick={exportSvgToPng}>export</button> */}
       <TransformComponent
         wrapperStyle={{ width: "100%", height: "100%", position: "relative" }}
       >
         <svg
           viewBox="0 0 800 800"
-          className="relative w-[600px] md:w-[800px] h-[600px] md:h-[800px]"
+          className="relative"
+          width="600"
+          height="600"
           xmlns="http://www.w3.org/2000/svg"
           ref={svgRef}
         >
           <g>
-            {NEW_VIETNAM_MAP.map((item) => (
+            {currentMap.map((item: any) => (
               <g
                 id={`VN${item.id}`}
                 key={`VN${item.id}`}
