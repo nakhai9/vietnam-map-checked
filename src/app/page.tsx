@@ -74,7 +74,7 @@ export default function Home() {
             <div className="flex justify-center gap-4">
               <Tooltip title="Tải hình ảnh">
                 <button
-                  className="flex items-center gap-2 bg-amber-600 hover:bg-amber-500 px-4 rounded-md h-10 text-white cursor-pointer icon"
+                  className="flex items-center gap-2 bg-amber-600 hover:bg-amber-500 px-4 rounded-md h-10 text-white text-xs md:text-sm cursor-pointer icon"
                   type="button"
                   onClick={onSwitchToMap}
                 >
