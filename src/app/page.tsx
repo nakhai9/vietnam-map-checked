@@ -32,6 +32,11 @@ export default function Home() {
     });
   }
 
+  const onSwitchToMap = () => {
+    switchToMap();
+    setSelectedLocationIds([]);
+  } 
+
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden overflow-hidden font-sans">
       <main className="gap-2 md:gap-16 grid grid-cols-1 md:grid-cols-2 mx-auto w-full md:w-6xl max-w-full min-h-screen">
@@ -64,7 +69,7 @@ export default function Home() {
             <MTAButton
               variant="outlined"
               label="Tải xuống hình ảnh bản đồ"
-              onClick={() => alert('Chức năng chưa khả dụng')}
+              onClick={() => alert("Chức năng chưa khả dụng")}
             />
           )}
 
@@ -72,7 +77,7 @@ export default function Home() {
             <MTAButton
               variant="contained"
               label={isNewMap ? "Bản đồ sau sáp nhập" : "Bản đồ trước sáp nhập"}
-              onClick={switchToMap}
+              onClick={onSwitchToMap}
             />
           }
         </div>
