@@ -76,7 +76,7 @@ export default function Home() {
           {
             <MTAButton
               variant="contained"
-              label={isNewMap ? "Bản đồ sau sáp nhập" : "Bản đồ trước sáp nhập"}
+              label={isNewMap ? "Chuyển sang bản đồ trước sáp nhập" : "Chuyển sang bản đồ sau sáp nhập"}
               onClick={onSwitchToMap}
             />
           }
