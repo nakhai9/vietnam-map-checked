@@ -86,8 +86,8 @@ export default function VietnamMap({
                 dangerouslySetInnerHTML={{ __html: item.svgData }}
                 fill={
                   locationIds.some((id) => id.toString() === item.id.toString())
-                    ? "#9790ee"
-                    : "#A3B3FF"
+                    ? "#bb4d00"
+                    : "#FE9A00"
                 }
                 style={{ cursor: "pointer" }}
                 onClick={() =>
