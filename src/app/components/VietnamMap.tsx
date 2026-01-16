@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { NEW_VIETNAM_MAP } from "../data/new-vietnam-map";
-import { LocationInfo } from "../model";
+import { LocationInfo, LocationModel } from "../model";
 import { OLD_VIETNAM_MAP } from "../data/old-vietnam-map";
 import { useVietnamMapStore } from "../store/vietnam-map-store";
 import { CircularProgress } from "@mui/material";
@@ -79,20 +79,20 @@ export default function VietnamMap({
           ref={svgRef}
         >
           <g>
-            {currentMap.map((item: any) => (
+            {currentMap.map((item: LocationModel) => (
               <g
-                id={`VN${item.id}`}
-                key={`VN${item.id}`}
+                id={`vn-${item.codeName}`}
+                key={`vn-${item.codeName}`}
                 dangerouslySetInnerHTML={{ __html: item.svgData }}
                 fill={
-                  locationIds.some((id) => id.toString() === item.id.toString())
+                  locationIds.some((id) => id === item.codeName)
                     ? "#bb4d00"
                     : "#FE9A00"
                 }
                 style={{ cursor: "pointer" }}
                 onClick={() =>
                   handleClick({
-                    id: item.id,
+                    codeName: item.codeName,
                     name: item.name,
                   })
                 }

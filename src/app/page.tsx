@@ -1,13 +1,22 @@
 "use client";
 
-import React, { use, useEffect } from 'react';
+import React, { useEffect } from "react";
 
-import { Button, Checkbox, Dialog, FormControl, InputLabel, MenuItem, Select, TextField, Tooltip } from '@mui/material';
-import MapViewer from './components/MapViewer';
-import { BookHeart, Footprints, ImageDown, Map, Pin, PinOff, Share2, X } from 'lucide-react';
-import { LocationInfo } from './model';
-import MTAButton from './ui/button';
-import { useVietnamMapStore } from './store/vietnam-map-store';
+import { Dialog, Tooltip } from "@mui/material";
+import MapViewer from "./components/MapViewer";
+import {
+  BookHeart,
+  Footprints,
+  ImageDown,
+  Map,
+  Pin,
+  PinOff,
+  Share2,
+  X,
+} from "lucide-react";
+import { LocationInfo } from "./model";
+import { useVietnamMapStore } from "./store/vietnam-map-store";
+import clsx from "clsx";
 export default function Home() {
   const [location, setLocation] = React.useState<LocationInfo | null>(null);
   const [selectedLocationIds, setSelectedLocationIds] = React.useState<string[]>([]);
@@ -19,27 +28,30 @@ export default function Home() {
   const handleChooseLocation = (location: LocationInfo) => {
     setOpen(true);
     setLocation(location);
-  }
+  };
 
-  const hasVisited = (location: LocationInfo) => {
+  const pinLocation = (location: LocationInfo) => {
     setOpen(false);
-    setSelectedLocationIds((prev: any) => {
-      if (prev.includes(location.id)) {
-        return prev;
-      } else {
-        return [...prev, location.id];
-      }
-    });
-  }
+
+    setSelectedLocationIds((prev) =>
+      prev.includes(location.codeName) ? prev : [...prev, location.codeName]
+    );
+  };
+
+  const unpinLocation = (location: LocationInfo) => {
+    setOpen(false);
+    setSelectedLocationIds((prev) => prev.filter((x) => x !== location.codeName));
+  };
 
   const onSwitchToMap = () => {
     switchToMap();
     setSelectedLocationIds([]);
-  }
+  };
+
 
   return (
-    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden overflow-hidden font-sans">
-      <main className="gap-2 md:gap-16 grid grid-cols-1 md:grid-cols-2 mx-auto w-full md:w-6xl max-w-full min-h-screen">
+    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden font-sans">
+      <main className="grid grid-cols-1 md:grid-cols-2 mx-auto w-full md:w-6xl max-w-full min-h-screen">
         <div className="flex flex-col justify-center gap-3 md:p-6 px-2">
           <div className="flex flex flex-col justify-center items-center">
             <h2 className="font-medium text-amber-600 text-xl sm:text-2xl md:text-3xl text-justify leading-tight">
@@ -85,7 +97,7 @@ export default function Home() {
                 <>
                   <Tooltip title="Lưu lại">
                     <button
-                      className="px-2 border border-amber-600 rounded-full h-10 text-amber-600 cursor-pointer icon"
+                      className="hidden px-2 border border-amber-600 rounded-full h-10 text-amber-600 cursor-pointer icon"
                       type="button"
                       onClick={() => alert("Chức năng chưa khả dụng")}
                     >
@@ -94,7 +106,7 @@ export default function Home() {
                   </Tooltip>
                   <Tooltip title="Tải hình ảnh">
                     <button
-                      className="px-2 border border-amber-600 rounded-full h-10 text-amber-600 cursor-pointer icon"
+                      className="hidden px-2 border border-amber-600 rounded-full h-10 text-amber-600 cursor-pointer icon"
                       type="button"
                       onClick={() => alert("Chức năng chưa khả dụng")}
                     >
@@ -103,7 +115,7 @@ export default function Home() {
                   </Tooltip>
                   <Tooltip title="Chia sẻ">
                     <button
-                      className="p-2 border border-amber-600 rounded-full h-10 text-amber-600 cursor-pointer icon"
+                      className="hidden p-2 border border-amber-600 rounded-full h-10 text-amber-600 cursor-pointer icon"
                       type="button"
                       onClick={() => alert("Chức năng chưa khả dụng")}
                     >
@@ -115,7 +127,7 @@ export default function Home() {
             </div>
           }
         </div>
-        <div className="flex items-center p-2 md:p-6">
+        <div className="flex items-center p-6 md:p-0">
           <MapViewer
             locationIds={selectedLocationIds}
             onChoose={(location) => handleChooseLocation(location)}
@@ -142,19 +154,24 @@ export default function Home() {
           </div>
           <div className="flex justify-around gap-4">
             <button
-              onClick={() => hasVisited(location as any)}
-              className="flex flex-col justify-center items-center gap-2 cursor-pointer"
+              onClick={() => pinLocation(location as LocationInfo)}
+              className={clsx(
+                `flex flex-col justify-center items-center gap-2 cursor-pointer`
+              )}
             >
               <Pin />
               <p>Đã đến</p>
             </button>
-            <button className="hidden flex flex-col justify-center items-center gap-2 cursor-pointer">
+            <button
+              onClick={() => unpinLocation(location as LocationInfo)}
+              className="flex flex-col justify-center items-center gap-2 cursor-pointer"
+            >
               <PinOff />
               <p>Tháo ghim</p>
             </button>
             <button
               onClick={() => setOpen(false)}
-              className="flex flex-col justify-center items-center gap-2 cursor-pointer"
+              className="hidden flex flex-col justify-center items-center gap-2 cursor-pointer"
             >
               <Footprints />
               <p>Sắp đến</p>
